@@ -40,6 +40,7 @@ validate_lines(grid) -> {
 ```powershell
 pip install -e ".[dev]"
 python -m pytest tests/ -v
+python -m src.boundary.app
 ```
 
 ## 진행 상태
@@ -59,5 +60,6 @@ python -m pytest tests/ -v
 | 03 | [Report/03.REPORT.md](Report/03.REPORT.md) | [Prompting/03.Export-Transcript.md](Prompting/03.Export-Transcript.md) | Entity D-LOC-01 RED Test Plan · README 갱신 |
 | 04 | [Report/04.REPORT.md](Report/04.REPORT.md) | [Prompting/04.Export-Transcript.md](Prompting/04.Export-Transcript.md) | Entity D-LOC-01 RED Skeleton |
 | 05 | [Report/05.REPORT.md](Report/05.REPORT.md) | [Prompting/05.Export-Transcript.md](Prompting/05.Export-Transcript.md) | Entity D-LOC-01 GREEN |
+| 06 | [Report/06.REPORT.md](Report/06.REPORT.md) | [Prompting/06.Export-Transcript.md](Prompting/06.Export-Transcript.md) | Dual-Track PASS · Golden · G1 GUI 데모 |
 
 - 요구사항 SSOT: [docs/PRD.md](docs/PRD.md)
