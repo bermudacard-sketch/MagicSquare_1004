@@ -1,13 +1,19 @@
 # MagicSquare_1004
 
-4×4 마방진(Magic Square) 프로젝트입니다.
+4×4 마방진(Magic Square) **검증** 프로젝트입니다.  
+1차 목표는 빈칸을 자동으로 푸는 것이 아니라, 후보 격자가 10줄(행 4 + 열 4 + 대각선 2) 합 **34**를 만족하는지 확인하는 것입니다.
 
-## 목표
+## 도메인
 
-1부터 16까지의 숫자를 4×4 격자에 배치하여,  
-가로·세로·대각선의 합이 모두 **34**가 되도록 만듭니다.
+| 항목 | 값 |
+|------|-----|
+| 격자 | 4×4 |
+| 숫자 범위 | 1 ~ 16 (완성 격자에서 각 1회) |
+| 빈칸 | `0` (부분 마방진, 2개) |
+| 마법 상수 | 34 |
+| 검증 대상 | 10선 — `R1`~`R4`, `C1`~`C4`, `D1`, `D2` |
 
-## 예시
+## 예시 (완성 격자)
 
 ```
 16   3   2  13
@@ -16,8 +22,44 @@
  4  15  14   1
 ```
 
-## 진행 예정
+## API — `validate_lines`
 
-- [ ] 4×4 마방진 생성 알고리즘 구현
-- [ ] 결과 검증
-- [ ] 출력 및 테스트
+```python
+validate_lines(grid) -> {
+    "status": "pass" | "fail" | "incomplete",
+    "failed_lines": list[str],  # 예: ["R2", "C2"]
+}
+```
+
+- `pass` — 빈칸 없음, 10선 합 모두 34
+- `fail` — 빈칸 없으나 하나 이상의 선 합 ≠ 34
+- `incomplete` — 격자에 `0` 포함 (`failed_lines`는 `[]`)
+
+## 테스트
+
+```powershell
+pip install -e ".[dev]"
+python -m pytest tests/ -v
+python -m src.boundary.app
+```
+
+## 진행 상태
+
+- [x] Test Harness (`pyproject.toml`, `src/validate_lines.py` 스텁)
+- [x] TDD RED — T-02 (`validate_lines` R2·C2 fail)
+- [ ] GREEN — `validate_lines` 구현
+- [ ] Entity — `find_blank_coords` (D-LOC-01)
+- [ ] Solver / UI — Out of Scope (세션 3)
+
+## 문서
+
+| NN | Report | Transcript | 주제 |
+|----|--------|------------|------|
+| 01 | [Report/01.MagicSquare_ProblemDefinition_Report.md](Report/01.MagicSquare_ProblemDefinition_Report.md) | — | Mom Test·문제 정의 |
+| 02 | [Report/02.REPORT.md](Report/02.REPORT.md) | [Prompting/02.Export-Transcript.md](Prompting/02.Export-Transcript.md) | 세션 3 Harness·TDD RED |
+| 03 | [Report/03.REPORT.md](Report/03.REPORT.md) | [Prompting/03.Export-Transcript.md](Prompting/03.Export-Transcript.md) | Entity D-LOC-01 RED Test Plan · README 갱신 |
+| 04 | [Report/04.REPORT.md](Report/04.REPORT.md) | [Prompting/04.Export-Transcript.md](Prompting/04.Export-Transcript.md) | Entity D-LOC-01 RED Skeleton |
+| 05 | [Report/05.REPORT.md](Report/05.REPORT.md) | [Prompting/05.Export-Transcript.md](Prompting/05.Export-Transcript.md) | Entity D-LOC-01 GREEN |
+| 06 | [Report/06.REPORT.md](Report/06.REPORT.md) | [Prompting/06.Export-Transcript.md](Prompting/06.Export-Transcript.md) | Dual-Track PASS · Golden · G1 GUI 데모 |
+
+- 요구사항 SSOT: [docs/PRD.md](docs/PRD.md)
