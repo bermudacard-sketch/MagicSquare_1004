@@ -14,7 +14,7 @@ _LINE_IDS = (
 )
 
 
-def _line_totals(grid: list[list[int]]) -> list[int]:
+def _collect_failed_line_ids(grid: list[list[int]]) -> list[str]:
     totals: list[int] = []
     for row in range(GRID_SIZE):
         totals.append(sum(grid[row][col] for col in range(GRID_SIZE)))
@@ -22,7 +22,11 @@ def _line_totals(grid: list[list[int]]) -> list[int]:
         totals.append(sum(grid[row][col] for row in range(GRID_SIZE)))
     totals.append(sum(grid[i][i] for i in range(GRID_SIZE)))
     totals.append(sum(grid[i][GRID_SIZE - 1 - i] for i in range(GRID_SIZE)))
-    return totals
+    return [
+        line_id
+        for line_id, total in zip(_LINE_IDS, totals, strict=True)
+        if total != MAGIC_CONSTANT
+    ]
 
 
 def validate_lines(grid: list[list[int]]) -> dict[str, str | list[str]]:
@@ -31,11 +35,7 @@ def validate_lines(grid: list[list[int]]) -> dict[str, str | list[str]]:
             if cell == BLANK_CELL:
                 return {"status": "incomplete", "failed_lines": []}
 
-    failed_lines: list[str] = []
-    for line_id, total in zip(_LINE_IDS, _line_totals(grid), strict=True):
-        if total != MAGIC_CONSTANT:
-            failed_lines.append(line_id)
-
+    failed_lines = _collect_failed_line_ids(grid)
     if failed_lines:
         return {"status": "fail", "failed_lines": failed_lines}
     return {"status": "pass", "failed_lines": []}

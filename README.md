@@ -49,7 +49,7 @@ python -m src.boundary.app
 - [x] Track B — T-02 GREEN, D-LOC-01 GREEN + Golden, D-SOL-01 GREEN
 - [x] Track A — U-IN-01/02 (`InputHandler`)
 - [x] G1 GUI 데모 (`python -m src.boundary.app`)
-- [ ] REFACTOR — `/refactor-safe` 후보 #1 (G1 SSOT 단일화)
+- [x] REFACTOR — `/refactor-safe` 후보 #1 (G1 SSOT → `src/entity/grids.py`)
 
 ## ARRR 실습 순서
 
@@ -74,7 +74,7 @@ python -m src.boundary.app
 
 | P | 스멜 | 위치 (파일:함수) | 근거 | Budget 내 리팩터 후보 |
 |---|------|------------------|------|------------------------|
-| P1 | Duplicated Code | `grid_g1` SSOT — `src/boundary/grid_g1.py:GRID_G1`, `tests/conftest.py:grid_g1` | G1 격자 동일 데이터 2곳 이상 복사 → GUI·테스트 drift 위험 | `conftest`가 `GRID_G1` import 후 반환 (파일 1) |
+| ~~P1~~ | ~~Duplicated Code~~ | ~~G1 SSOT~~ | **완료** — `src/entity/grids.py:GRID_G1` SSOT | — |
 | P1 | Duplicated Code | `src/validate_lines.py:_line_totals` | 행·열·주대각·부대각 `sum` 패턴 4회 반복 | `_row_totals` / `_col_totals` / `_diagonal_totals` private 추출 (파일 1, 메서드 ≤2) |
 | P1 | Long Method | `src/boundary/app.py:MagicSquareDemoApp._build_ui` | 격자 UI + 빈칸 판별 + 결과 패널 한 메서드 (~38줄) | `_build_grid_frame`, `_build_result_panel` 분리 (파일 1, 메서드 +2) |
 | P2 | Mysterious Name | `src/boundary/app.py:_build_ui` — `blank_coords_0` | 1-index → 0-index 변환 의도 불명 | `blank_cells_zero_indexed` 등 rename |
@@ -89,23 +89,23 @@ python -m src.boundary.app
 
 | # | 후보 | P | 유형 | 예상 변경 | Budget |
 |---|------|---|------|-----------|--------|
-| 1 | G1 격자 SSOT 단일화 | P1 | Duplicated Code | `tests/conftest.py` → `from src.boundary.grid_g1 import GRID_G1` | 파일 1 · 메서드 0 |
+| ~~1~~ | ~~G1 격자 SSOT 단일화~~ | P1 | Duplicated Code | **완료** — `src/entity/grids.py` + boundary re-export + conftest import | — |
 | 2 | 10선 합산 헬퍼 추출 | P1 | Duplicated Code | `validate_lines.py` — `_line_totals` 분리, API·`failed_lines` 불변 | 파일 1 · 메서드 +2 |
 | 3 | GUI `_build_ui` 분리 | P1 | Long Method | `app.py` — grid/result 패널 메서드 추출 | 파일 1 · 클래스 1 · 메서드 +2 |
 
 ### 다음
 
-**P0 없음** → 후보 **#1 (G1 SSOT 단일화)** 부터 `/refactor-safe` 실행.
+**P0 없음** → 후보 **#2 (10선 합산 헬퍼)** 부터 `/refactor-safe` 실행.
 
 ```text
-/refactor-safe — #1 P1 Duplicated Code — conftest가 GRID_G1 import
+/refactor-safe — #2 P1 Duplicated Code — validate_lines 10선 합산 헬퍼 추출
 ```
 
 ## 후속 (예정)
 
 - [ ] D-SOL-01 `/golden-master` — `d_sol_01_g1_step_a.approved.txt`
 - [ ] T-01, incomplete, T-03 등 추가 RED
-- [ ] REFACTOR 후보 #2, #3 순차 처리
+- [ ] REFACTOR 후보 #2, #3 순차 처리 (후보 #1 G1 SSOT 완료)
 
 ## 문서
 
@@ -118,5 +118,6 @@ python -m src.boundary.app
 | 05 | [Report/05.REPORT.md](Report/05.REPORT.md) | [Prompting/05.Export-Transcript.md](Prompting/05.Export-Transcript.md) | Entity D-LOC-01 GREEN |
 | 06 | [Report/06.REPORT.md](Report/06.REPORT.md) | [Prompting/06.Export-Transcript.md](Prompting/06.Export-Transcript.md) | Dual-Track PASS · Golden · G1 GUI 데모 |
 | 07 | [Report/07.REPORT.md](Report/07.REPORT.md) | [Prompting/07.Export-Transcript.md](Prompting/07.Export-Transcript.md) | REFACTOR Smell · README To-Do |
+| 08 | [Report/08.REPORT.md](Report/08.REPORT.md) | [Prompting/08.Export-Transcript.md](Prompting/08.Export-Transcript.md) | REFACTOR Safe · G1 SSOT 단일화 |
 
 - 요구사항 SSOT: [docs/PRD.md](docs/PRD.md)
