@@ -58,5 +58,6 @@ python -m pytest tests/ -v
 | 02 | [Report/02.REPORT.md](Report/02.REPORT.md) | [Prompting/02.Export-Transcript.md](Prompting/02.Export-Transcript.md) | 세션 3 Harness·TDD RED |
 | 03 | [Report/03.REPORT.md](Report/03.REPORT.md) | [Prompting/03.Export-Transcript.md](Prompting/03.Export-Transcript.md) | Entity D-LOC-01 RED Test Plan · README 갱신 |
 | 04 | [Report/04.REPORT.md](Report/04.REPORT.md) | [Prompting/04.Export-Transcript.md](Prompting/04.Export-Transcript.md) | Entity D-LOC-01 RED Skeleton |
+| 05 | [Report/05.REPORT.md](Report/05.REPORT.md) | [Prompting/05.Export-Transcript.md](Prompting/05.Export-Transcript.md) | Entity D-LOC-01 GREEN |
 
 - 요구사항 SSOT: [docs/PRD.md](docs/PRD.md)
